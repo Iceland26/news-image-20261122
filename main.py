@@ -748,7 +748,7 @@ def build():
     MX = 28.0; CW = W - 2 * MX
     # ---- masthead
     draw_text(cv, MX, 27, "THE WORLD IN ONE DAY", 10.5, INK, 1.4)
-    draw_text(cv, W - MX, 27, "30 STORIES \u00b7 7 REGIONS \u00b7 AS REPORTED ON SUNDAY 22 NOVEMBER 2026",
+    draw_text(cv, W - MX, 27, "36 STORIES \u00b7 7 REGIONS \u00b7 AS REPORTED ON SUNDAY 22 NOVEMBER 2026",
               8.2, SOFT, 1.1, align='right')
     hline(cv, MX, 33, CW, 3.2)
     draw_text(cv, MX - 2, 92, "Sunday 22 November 2026", 55, INK, 1.55)
@@ -757,7 +757,7 @@ def build():
                "Iran strikes US bases in the Gulf \u00b7 COP31 nears a deal in Antalya \u00b7 "
                "Russian ship ablaze in the Baltic \u00b7 Sudan landmine kills 22",
                13.5, 18, SOFT, CW, 1.05, italic=True)
-    hline(cv, MX, 142, CW, 1.0, FAINT)
+    hline(cv, MX, 136, CW, 1.0, FAINT)
     # ---- stat band
     stats = [
         ("2", "tankers struck leaving Hormuz \u00b7 UKMTO"),
@@ -771,25 +771,25 @@ def build():
     for i, (num, cap) in enumerate(stats):
         sx = MX + i * sw
         if i:
-            cv.rect(sx, 150, 1.0, 44, FAINT)
-        draw_text(cv, sx + 8, 172, num, 25, RED if i in (0, 3) else INK, 1.5)
-        draw_block(cv, sx + 8, 178, cap, 7.8, 10.2, SOFT, sw - 16, 0.95)
-    hline(cv, MX, 198, CW, 1.0, FAINT)
-    # ---- region bar (tally of the 30 stories on this page)
-    regions = [("EUROPE 8", 8), ("ASIA 7", 7), ("MIDDLE EAST 6", 6),
-               ("AMERICAS 6", 6), ("AF 1", 1), ("OC 1", 1), ("GL 1", 1)]
+            cv.rect(sx, 144, 1.0, 44, FAINT)
+        draw_text(cv, sx + 8, 166, num, 25, RED if i in (0, 3) else INK, 1.5)
+        draw_block(cv, sx + 8, 172, cap, 7.8, 10.2, SOFT, sw - 16, 0.95)
+    hline(cv, MX, 192, CW, 1.0, FAINT)
+    # ---- region bar (tally of the 36 stories on this page)
+    regions = [("EUROPE 10", 10), ("ASIA 8", 8), ("MIDDLE EAST 7", 7),
+               ("AMERICAS 6", 6), ("AF 2", 2), ("OC 1", 1), ("GL 2", 2)]
     rx = MX
     total = sum(n for _, n in regions)
     for i, (label, n) in enumerate(regions):
         segw = CW * n / total
-        cv.rect(rx, 204, segw - 2, 17, REGION_COLORS[i])
+        cv.rect(rx, 198, segw - 2, 17, REGION_COLORS[i])
         tsize = 8.6 if n > 1 else 7.0
         tw = text_width(label, tsize)
-        draw_text(cv, rx + (segw - 2 - tw) / 2.0, 216.5, label, tsize, WHITE, 1.25)
+        draw_text(cv, rx + (segw - 2 - tw) / 2.0, 210.5, label, tsize, WHITE, 1.25)
         rx += segw
-    draw_text(cv, MX, 230, "STORIES BY REGION \u00b7 TALLIED FROM THE 30 STORIES BELOW", 6.8, FAINT, 1.0)
+    draw_text(cv, MX, 222, "STORIES BY REGION \u00b7 TALLIED FROM THE 36 STORIES BELOW", 6.8, FAINT, 1.0)
     # ---- hero
-    HY = 236.0; HH = 174.0
+    HY = 227.0; HH = 170.0
     card_box(cv, MX, HY, CW, HH)
     cv.rect(MX, HY, CW, 4, RED)
     scene_gulf(cv, MX + CW - 330, HY + 10, 320, HH - 20)
@@ -804,7 +804,7 @@ def build():
               "no US casualties, no base damage. (Reuters, Al Jazeera)",
               11, 1.36, SOFT, 592, HY + HH - (bend + 8) - 10, 1.0)
     # ---- two half cards
-    TY = 418.0; TH = 158.0; TW2 = (CW - 14) / 2.0
+    TY = 402.0; TH = 156.0; TW2 = (CW - 14) / 2.0
     halves = [
         ("2 \u00b7 COP31: NEAR A DEAL", "ANTALYA, T\u00dcRKIYE \u00b7 CLIMATE",
          "COP31 nears a deal as a new text is tabled after overtime talks",
@@ -827,7 +827,7 @@ def build():
                   TY + TH - scene_h - 12 - (bend + 5), 0.95)
         scene(cv, cx0 + 12, TY + TH - scene_h - 8, TW2 - 24, scene_h)
     # ---- three cards
-    RY = 584.0; RH = 130.0; RW3 = (CW - 16) / 3.0
+    RY = 563.0; RH = 129.0; RW3 = (CW - 16) / 3.0
     triples = [
         ("4 \u00b7 HORMUZ: TANKERS HIT", "STRAIT OF HORMUZ \u00b7 IRAN WAR",
          "Two tankers hit leaving Hormuz as Iran tightens its grip on shipping",
@@ -852,7 +852,7 @@ def build():
         fit_block(cv, cx0 + 10, bend + 4, deck, 8.8, 1.3, SOFT, RW3 - 20,
                   RY + RH - (bend + 4) - 6, 0.95)
     # ---- five small cards
-    FY = 722.0; FH = 110.0; FW5 = (CW - 28) / 5.0
+    FY = 697.0; FH = 108.0; FW5 = (CW - 28) / 5.0
     fives = [
         ("7 \u00b7 IRAN: POWER", "TEHRAN \u00b7 ENERGY",
          "Iran begins rationing electricity from Sunday",
@@ -879,7 +879,7 @@ def build():
         fit_block(cv, cx0 + 8, bend + 3, deck, 8.2, 1.28, SOFT, FW5 - 16,
                   FY + FH - (bend + 3) - 5, 0.95)
     # ---- bottom band: map + briefs
-    BY = 840.0; BH = 114.0
+    BY = 810.0; BH = 114.0
     hline(cv, MX, BY - 4, CW, 1.6)
     draw_text(cv, MX, BY + 10, "WHERE IT HAPPENED", 9.5, INK, 1.3)
     scene_map(cv, MX, BY + 14, 296, 80)
@@ -896,11 +896,11 @@ def build():
         "18 Washington: Trump downplays reported FBI hack (Reuters)",
         "19 Berlin: Coalition of the Willing presses Moscow (DW)",
         "20 Geneva: 1 in 4 women cannot refuse sex (UNFPA)",
-    ]
-    briefs_b = [
         "21 Manila: China bomber turns back 170 km out (AFP)",
         "22 Brussels: EU 3% big-tech levy proposed; France rejects (AFP)",
         "23 Paris: police probe Depardieu, Houellebecq (AFP)",
+    ]
+    briefs_b = [
         "24 Delhi: India hockey coach Bhangu dies at 86 (PTI)",
         "25 Jeddah: Air India extends suspension to Nov 24 (ANI)",
         "26 Toronto: two men shot dead outside Walmart (AFP)",
@@ -908,13 +908,19 @@ def build():
         "28 Ranchi: Cyclone Akvan remnants cancel 14 flights (ANI)",
         "29 Philippines: M5.9 quake, 586 km deep, off Palawan (EMSC)",
         "30 Japan poll: record 62% feel friendly to S. Korea (JKN)",
+        "31 Nigeria: toll in funeral-boat capsize reaches 24 (AP)",
+        "32 Basra: power-station fire kills 4, injures 35 (Reuters)",
+        "33 Kyiv: Zelenskiy says Abu Dhabi talks resume (Reuters)",
+        "34 Lisbon: thousands march over living costs (Reuters)",
+        "35 Banda Sea: M6.8 quake NE of Dili, no tsunami (GFZ)",
+        "36 Geneva: 'killer robot' talks pledge 2028 rules (Reuters)",
     ]
     colw = (W - MX - bx - 10) / 2.0
     for j, items in enumerate((briefs_a, briefs_b)):
         cx0 = bx + j * (colw + 10)
-        yy = BY + 16
+        yy = BY + 15
         for it in items:
-            yy = draw_block(cv, cx0, yy, it, 7.4, 10.8, SOFT, colw, 0.95) + 1.1
+            yy = draw_block(cv, cx0, yy, it, 7.4, 10.8, SOFT, colw, 0.95) + 0.7
     # ---- date check
     DY = 964.0
     cv.rect(MX, DY, CW, 33, PAPER2)
@@ -923,7 +929,8 @@ def build():
     draw_block(cv, MX + 8, DY + 4,
                "DATE CHECK \u00b7 Left out as earlier news: Kryvyi Rih 'triple-tap' strike (Fri 20) \u00b7 Wall Street's AI "
                "sell-off (Fri 20) \u00b7 Kerch Bridge strike (Wed) \u00b7 Xi\u2013Trump\u2013Putin Shenzhen summit (19 Nov). The Peru quake "
-               "was Friday evening's; only Sunday's toll update counts. Not confirmed when drawn (~03:00 UTC): COP31 "
+               "was Friday evening's; only Sunday's toll update counts. The Nigeria boat sank Friday; only the "
+               "weekend toll of 24 counts. Not confirmed when drawn (~03:00 UTC): COP31 "
                "adoption (0600 GMT session) \u00b7 Las Vegas GP result (~04:00 UTC) \u00b7 IRGC radar claims (CENTCOM denies).",
                6.9, 9.4, SOFT, CW - 16, 0.95)
     # ---- footer
