@@ -541,6 +541,144 @@ def scene_baltic(cv, x, y, w, h):
              (x + w * 0.095, y + h * 0.60), (x + w * 0.045, y + h * 0.60)], (44, 52, 60))
     cv.rect(x + w * 0.055, y + h * 0.50, w * 0.03, h * 0.05, (44, 52, 60))
 
+def _star(cv, cx, cy, r, c):
+    pts = []
+    for i in range(10):
+        ang = -math.pi / 2.0 + i * math.pi / 5.0
+        rr = r if i % 2 == 0 else r * 0.45
+        pts.append((cx + rr * math.cos(ang), cy + rr * math.sin(ang)))
+    cv.poly(pts, c)
+
+def _mine(cv, cx, cy, r, c=(26, 28, 32)):
+    for k in range(8):
+        ang = k * math.pi / 4.0
+        cv.seg(cx, cy, cx + r * 1.55 * math.cos(ang), cy + r * 1.55 * math.sin(ang), 1.3, c)
+    cv.circle(cx, cy, r, c)
+    cv.circle(cx - r * 0.3, cy - r * 0.3, r * 0.28, (120, 124, 130))
+
+def banner_hormuz(cv, x, y, w, h):
+    cv.rect(x, y, w, h * 0.58, (178, 200, 216))
+    cv.rect(x, y + h * 0.58, w, h * 0.42, (52, 92, 124))
+    hx = x + w * 0.14; hy = y + h * 0.50; hw = w * 0.54; hh = h * 0.30
+    cols = [(178, 52, 40), (224, 148, 32), (39, 92, 160), (26, 140, 120)]
+    for i in range(4):
+        cv.rect(hx + hw * 0.10 + i * hw * 0.17, hy - h * 0.22, hw * 0.14, h * 0.22, cols[i])
+    cv.rect(hx + hw * 0.84, hy - h * 0.34, hw * 0.09, h * 0.34, (240, 238, 230))
+    cv.poly([(hx, hy), (hx + hw, hy), (hx + hw * 0.92, hy + hh), (hx + hw * 0.08, hy + hh)], (34, 38, 46))
+    cv.rect(hx + hw * 0.10, hy + hh * 0.52, hw * 0.80, hh * 0.34, (168, 52, 40))
+    cv.seg(x + w * 0.06, y + h * 0.80, x + w * 0.20, y + h * 0.80, 1.2, (170, 205, 225))
+    cv.seg(x + w * 0.30, y + h * 0.88, x + w * 0.46, y + h * 0.88, 1.2, (170, 205, 225))
+    _mine(cv, x + w * 0.87, y + h * 0.74, h * 0.15)
+
+def banner_sudan(cv, x, y, w, h):
+    cv.rect(x, y, w, h, (233, 206, 152))
+    cv.poly([(x, y + h), (x + w * 0.52, y + h * 0.42), (x + w * 0.72, y + h * 0.42),
+             (x + w * 0.34, y + h)], (122, 116, 106))
+    cv.seg(x + w * 0.10, y + h * 0.90, x + w * 0.56, y + h * 0.50, 1.2, (240, 236, 220))
+    _mine(cv, x + w * 0.44, y + h * 0.60, h * 0.13, (40, 36, 30))
+    tx = x + w * 0.80; ty = y + h * 0.50; tr = h * 0.34
+    cv.poly([(tx, ty - tr), (tx + tr * 0.95, ty + tr * 0.8), (tx - tr * 0.95, ty + tr * 0.8)], (250, 246, 235))
+    pts = [(tx, ty - tr), (tx + tr * 0.95, ty + tr * 0.8), (tx - tr * 0.95, ty + tr * 0.8), (tx, ty - tr)]
+    cv.path(pts, 2.0, RED)
+    cv.seg(tx, ty - tr * 0.25, tx, ty + tr * 0.32, 2.2, RED)
+    cv.circle(tx, ty + tr * 0.58, 1.6, RED)
+    cv.circle(x + w * 0.08, y + h * 0.22, h * 0.16, (245, 178, 60))
+
+def banner_gaza(cv, x, y, w, h):
+    cv.rect(x, y, w, h, (216, 226, 208))
+    cv.rect(x, y + h * 0.78, w, h * 0.22, (168, 160, 138))
+    vx = x + w * 0.30; vy = y + h * 0.34; vw = w * 0.40; vh = h * 0.44
+    cv.rect(vx, vy, vw * 0.72, vh, (250, 248, 242))
+    cv.poly([(vx + vw * 0.72, vy + vh * 0.28), (vx + vw, vy + vh * 0.62),
+             (vx + vw, vy + vh), (vx + vw * 0.72, vy + vh)], (240, 238, 232))
+    cv.rect(vx + vw * 0.80, vy + vh * 0.42, vw * 0.13, vh * 0.26, (150, 180, 200))
+    cv.rect(vx + vw * 0.30 - 1.6, vy + vh * 0.20, 3.2, vh * 0.5, RED)
+    cv.rect(vx + vw * 0.30 - vh * 0.25, vy + vh * 0.45 - 1.6, vh * 0.5, 3.2, RED)
+    cv.circle(vx + vw * 0.20, vy + vh, h * 0.11, (30, 30, 32))
+    cv.circle(vx + vw * 0.82, vy + vh, h * 0.11, (30, 30, 32))
+    dx = x + w * 0.86; dy = y + h * 0.26
+    cv.rect(dx - w * 0.035, dy - 1.2, w * 0.07, 2.4, (40, 42, 48))
+    for (sx, sy) in [(-1, -1), (1, -1), (-1, 1), (1, 1)]:
+        cv.seg(dx, dy, dx + sx * w * 0.055, dy + sy * h * 0.20, 1.4, (40, 42, 48))
+        cv.circle(dx + sx * w * 0.055, dy + sy * h * 0.20, 1.7, (40, 42, 48))
+
+def banner_iran(cv, x, y, w, h):
+    cv.rect(x, y, w, h, NAVY2)
+    px = x + w * 0.30; top = y + h * 0.10; bot = y + h * 0.94
+    cv.seg(px - w * 0.055, bot, px, top, 1.8, (10, 16, 26))
+    cv.seg(px + w * 0.055, bot, px, top, 1.8, (10, 16, 26))
+    cv.seg(px - w * 0.13, y + h * 0.30, px + w * 0.13, y + h * 0.30, 1.8, (10, 16, 26))
+    cv.seg(px - w * 0.10, y + h * 0.52, px + w * 0.10, y + h * 0.52, 1.8, (10, 16, 26))
+    cv.seg(px - w * 0.13, y + h * 0.30, px + w * 0.10, y + h * 0.52, 1.1, (10, 16, 26))
+    cv.seg(px + w * 0.13, y + h * 0.30, px - w * 0.10, y + h * 0.52, 1.1, (10, 16, 26))
+    cv.seg(x + w * 0.04, y + h * 0.22, px - w * 0.13, y + h * 0.30, 1.1, (120, 140, 175))
+    cv.seg(px + w * 0.13, y + h * 0.30, x + w * 0.58, y + h * 0.18, 1.1, (120, 140, 175))
+    bx = x + w * 0.74; by = y + h * 0.50; br = h * 0.36
+    cv.poly([(bx + br * 0.28, by - br), (bx - br * 0.42, by + br * 0.18), (bx - br * 0.02, by + br * 0.18),
+             (bx - br * 0.28, by + br), (bx + br * 0.46, by - br * 0.14), (bx + br * 0.06, by - br * 0.14)], AMBER)
+
+def banner_poland(cv, x, y, w, h):
+    cv.rect(x, y, w, h, (240, 238, 232))
+    cv.rect(x, y + h * 0.72, w, h * 0.28, (196, 44, 38))
+    cx = x + w * 0.50; cy = y + h * 0.46; sw2 = w * 0.10; sh = h * 0.40
+    shield = [(cx - sw2, cy - sh), (cx + sw2, cy - sh), (cx + sw2, cy + sh * 0.25),
+              (cx, cy + sh), (cx - sw2, cy + sh * 0.25)]
+    cv.poly(shield, (39, 92, 160))
+    for i in range(len(shield)):
+        a = shield[i]; b = shield[(i + 1) % len(shield)]
+        cv.seg(a[0], a[1], b[0], b[1], 1.4, INK)
+    _star(cv, cx, cy - sh * 0.08, sh * 0.42, WHITE)
+    _star(cv, x + w * 0.16, y + h * 0.34, h * 0.14, (39, 92, 160))
+    _star(cv, x + w * 0.84, y + h * 0.34, h * 0.14, (39, 92, 160))
+
+def banner_mexico(cv, x, y, w, h):
+    cv.rect(x, y, w, h, (238, 220, 190))
+    cv.rect(x, y + h * 0.80, w, h * 0.20, (196, 172, 128))
+    bx = x + w * 0.10; bw = w * 0.26; btop = y + h * 0.22
+    cv.rect(bx, btop, bw, y + h * 0.80 - btop, (74, 62, 50))
+    cv.rect(bx + bw * 0.14, btop - h * 0.10, bw * 0.72, h * 0.10, (74, 62, 50))
+    for r in range(2):
+        for cc in range(3):
+            cv.rect(bx + bw * 0.14 + cc * bw * 0.26, btop + h * 0.10 + r * h * 0.24, bw * 0.16, h * 0.14, AMBER)
+    hx = x + w * 0.66; hy = y + h * 0.52; hr = h * 0.30
+    cv.ring(hx - hr * 0.72, hy, hr, 2.4, (96, 96, 104))
+    cv.ring(hx + hr * 0.72, hy, hr, 2.4, (96, 96, 104))
+    cv.seg(hx - hr * 0.30, hy - hr * 0.92, hx + hr * 0.30, hy - hr * 0.92, 2.0, (96, 96, 104))
+    cv.seg(hx - hr * 0.72, hy - hr * 0.9, hx - hr * 0.72, hy - hr * 1.25, 2.2, (96, 96, 104))
+    cv.seg(hx + hr * 0.72, hy - hr * 0.9, hx + hr * 0.72, hy - hr * 1.25, 2.2, (96, 96, 104))
+
+def banner_peru(cv, x, y, w, h):
+    cv.rect(x, y, w, h, (196, 214, 226))
+    cv.poly([(x + w * 0.04, y + h * 0.82), (x + w * 0.30, y + h * 0.16),
+             (x + w * 0.54, y + h * 0.82)], (110, 120, 130))
+    cv.poly([(x + w * 0.235, y + h * 0.335), (x + w * 0.30, y + h * 0.16),
+             (x + w * 0.365, y + h * 0.335), (x + w * 0.30, y + h * 0.42)], WHITE)
+    cv.poly([(x + w * 0.44, y + h * 0.82), (x + w * 0.68, y + h * 0.26),
+             (x + w * 0.94, y + h * 0.82)], (128, 136, 142))
+    cv.poly([(x + w * 0.615, y + h * 0.415), (x + w * 0.68, y + h * 0.26),
+             (x + w * 0.745, y + h * 0.415), (x + w * 0.68, y + h * 0.48)], WHITE)
+    cv.rect(x, y + h * 0.82, w, h * 0.18, (150, 138, 112))
+    crack = [(x + w * 0.40, y + h * 0.83), (x + w * 0.47, y + h * 0.90),
+             (x + w * 0.44, y + h * 0.94), (x + w * 0.53, y + h * 0.99)]
+    cv.path(crack, 1.8, (52, 44, 34))
+    crack2 = [(x + w * 0.62, y + h * 0.84), (x + w * 0.67, y + h * 0.91), (x + w * 0.65, y + h * 0.97)]
+    cv.path(crack2, 1.4, (52, 44, 34))
+
+def banner_belgium(cv, x, y, w, h):
+    cv.rect(x, y, w, h, (178, 200, 216))
+    cv.ellipse(x + w * 0.16, y + h * 0.30, w * 0.075, h * 0.15, WHITE)
+    cv.ellipse(x + w * 0.86, y + h * 0.24, w * 0.06, h * 0.12, WHITE)
+    px = x + w * 0.50; py = y + h * 0.52
+    cv.poly([(px - w * 0.26, py), (px - w * 0.05, py - h * 0.13), (px + w * 0.20, py - h * 0.10),
+             (px + w * 0.28, py), (px + w * 0.20, py + h * 0.09), (px - w * 0.05, py + h * 0.11)], (34, 42, 56))
+    cv.poly([(px - w * 0.24, py - h * 0.02), (px - w * 0.33, py - h * 0.30),
+             (px - w * 0.26, py - h * 0.30), (px - w * 0.13, py - h * 0.04)], (34, 42, 56))
+    cv.poly([(px + w * 0.02, py + h * 0.10), (px - w * 0.06, py + h * 0.30),
+             (px + w * 0.03, py + h * 0.30), (px + w * 0.12, py + h * 0.08)], (34, 42, 56))
+    for i in range(5):
+        cv.circle(px - w * 0.10 + i * w * 0.055, py - h * 0.045, 1.3, (200, 220, 235))
+    cv.poly([(x + w * 0.70, y), (x + w * 0.86, y), (x + w * 0.42, y + h), (x + w * 0.26, y + h)], RED, 0.88)
+
 # coarse world-map continent polygons in a 300x150 box (x,y = top-left)
 CONTINENTS = [
     [(6, 40), (24, 24), (48, 15), (74, 14), (88, 22), (86, 36), (74, 42),
@@ -584,11 +722,11 @@ def scene_map(cv, x, y, w, h):
             cv.seg(a[0], a[1], b[0], b[1], 1.0, (120, 110, 84))
     for idx, (fx, fy) in enumerate(PINS, start=1):
         px = x + fx * w; py = y + fy * h
-        cv.circle(px, py, 5.6, RED)
-        cv.ring(px, py, 5.6, 0.9, WHITE)
+        cv.circle(px, py, 6.6, RED)
+        cv.ring(px, py, 6.6, 1.1, WHITE)
         label = str(idx)
-        tw = text_width(label, 6.9)
-        draw_text(cv, px - tw / 2.0, py + 2.4, label, 6.9, WHITE, 1.5)
+        tw = text_width(label, 7.8)
+        draw_text(cv, px - tw / 2.0, py + 2.7, label, 7.8, WHITE, 1.6)
 
 # ---------------------------------------------------------------- page
 def hline(cv, x, y, w, t, c=INK):
@@ -651,7 +789,7 @@ def build():
         rx += segw
     draw_text(cv, MX, 230, "STORIES BY REGION \u00b7 TALLIED FROM THE 30 STORIES BELOW", 6.8, FAINT, 1.0)
     # ---- hero
-    HY = 236.0; HH = 192.0
+    HY = 236.0; HH = 174.0
     card_box(cv, MX, HY, CW, HH)
     cv.rect(MX, HY, CW, 4, RED)
     scene_gulf(cv, MX + CW - 330, HY + 10, 320, HH - 20)
@@ -666,7 +804,7 @@ def build():
               "no US casualties, no base damage. (Reuters, Al Jazeera)",
               11, 1.36, SOFT, 592, HY + HH - (bend + 8) - 10, 1.0)
     # ---- two half cards
-    TY = 436.0; TH = 172.0; TW2 = (CW - 14) / 2.0
+    TY = 418.0; TH = 158.0; TW2 = (CW - 14) / 2.0
     halves = [
         ("2 \u00b7 COP31: NEAR A DEAL", "ANTALYA, T\u00dcRKIYE \u00b7 CLIMATE",
          "COP31 nears a deal as a new text is tabled after overtime talks",
@@ -683,64 +821,69 @@ def build():
         cx0 = MX + i * (TW2 + 14)
         card_box(cv, cx0, TY, TW2, TH)
         ky = kicker_loc(cv, cx0 + 12, TY + 10, kick, loc, 10.5)
-        bend = draw_block(cv, cx0 + 12, ky + 1, head, 16.5, 20, INK, TW2 - 24, 1.3)
-        scene_h = 52.0
+        bend = draw_block(cv, cx0 + 12, ky + 1, head, 17.2, 20.5, INK, TW2 - 24, 1.32)
+        scene_h = 44.0
         fit_block(cv, cx0 + 12, bend + 5, deck, 9.8, 1.34, SOFT, TW2 - 24,
                   TY + TH - scene_h - 12 - (bend + 5), 0.95)
         scene(cv, cx0 + 12, TY + TH - scene_h - 8, TW2 - 24, scene_h)
     # ---- three cards
-    RY = 616.0; RH = 102.0; RW3 = (CW - 16) / 3.0
+    RY = 584.0; RH = 130.0; RW3 = (CW - 16) / 3.0
     triples = [
         ("4 \u00b7 HORMUZ: TANKERS HIT", "STRAIT OF HORMUZ \u00b7 IRAN WAR",
          "Two tankers hit leaving Hormuz as Iran tightens its grip on shipping",
          "One struck at the stern, one in the engine room, no casualties. Tehran says ships must "
-         "coordinate with Iran; the IRGC claims the tankers hit mines. (UKMTO, Al Jazeera)"),
+         "coordinate with Iran; the IRGC claims the tankers hit mines. (UKMTO, Al Jazeera)",
+         banner_hormuz),
         ("5 \u00b7 SUDAN: LANDMINE", "NORTH KORDOFAN \u00b7 SUDAN WAR",
          "Landmine kills 22 on a road to El-Obeid",
-         "A passenger tuk-tuk hit the mine; women and children are among the dead. (Darfur24)"),
+         "A passenger tuk-tuk hit the mine; women and children are among the dead. (Darfur24)",
+         banner_sudan),
         ("6 \u00b7 GAZA: AID VAN HIT", "GAZA CITY \u00b7 CEASEFIRE",
          "Drone strike on a Gaza food-aid van kills three",
-         "The IDF says it targeted Islamic Jihad members. (Al Jazeera, Gaza ministry)"),
+         "The IDF says it targeted Islamic Jihad members. (Al Jazeera, Gaza ministry)",
+         banner_gaza),
     ]
-    for i, (kick, loc, head, deck) in enumerate(triples):
+    for i, (kick, loc, head, deck, banner) in enumerate(triples):
         cx0 = MX + i * (RW3 + 8)
         card_box(cv, cx0, RY, RW3, RH)
-        ky = kicker_loc(cv, cx0 + 10, RY + 8, kick, loc, 8.8)
-        bend = draw_block(cv, cx0 + 10, ky, head, 13.5, 16.5, INK, RW3 - 20, 1.25)
+        banner(cv, cx0 + 1.4, RY + 1.4, RW3 - 2.8, 21)
+        ky = kicker_loc(cv, cx0 + 10, RY + 26, kick, loc, 8.8)
+        bend = draw_block(cv, cx0 + 10, ky, head, 14.2, 17, INK, RW3 - 20, 1.3)
         fit_block(cv, cx0 + 10, bend + 4, deck, 8.8, 1.3, SOFT, RW3 - 20,
-                  RY + RH - (bend + 4) - 7, 0.95)
+                  RY + RH - (bend + 4) - 6, 0.95)
     # ---- five small cards
-    FY = 726.0; FH = 96.0; FW5 = (CW - 28) / 5.0
+    FY = 722.0; FH = 110.0; FW5 = (CW - 28) / 5.0
     fives = [
         ("7 \u00b7 IRAN: POWER", "TEHRAN \u00b7 ENERGY",
          "Iran begins rationing electricity from Sunday",
-         "Cuts of up to two hours a day as gas output lags. (RFE/RL)"),
+         "Cuts of up to two hours a day as gas output lags. (RFE/RL)", banner_iran),
         ("8 \u00b7 POLAND: NATO", "WARSAW \u00b7 NATO",
          "Rutte in Warsaw: all of NATO stands with Poland",
-         "The visit follows Friday's Russian missile incursion. (TVP World, AFP)"),
+         "The visit follows Friday's Russian missile incursion. (TVP World, AFP)", banner_poland),
         ("9 \u00b7 MEXICO: CARTEL", "SINALOA \u00b7 CRIME",
          "Mexico captures cartel boss 'El Chapo Isidro'",
-         "Taken with two other leaders of his gang. (Reuters)"),
+         "Taken with two other leaders of his gang. (Reuters)", banner_mexico),
         ("10 \u00b7 PERU: QUAKE", "JUN\u00cdN \u00b7 EARTHQUAKE",
          "Peru quake toll reaches one dead, 16 injured",
-         "Officials update the count from Friday's M6.7 Andes quake, felt in Lima. (Officials)"),
+         "Officials update the count from Friday's M6.7 Andes quake, felt in Lima. (Officials)", banner_peru),
         ("11 \u00b7 BELGIUM: SKIES", "BRUSSELS \u00b7 LABOUR",
          "Belgian national strike to ground flights on Monday",
-         "No regular air traffic 07:00\u201321:00, Skeyes says. (AFP)"),
+         "No regular air traffic 07:00\u201321:00, Skeyes says. (AFP)", banner_belgium),
     ]
-    for i, (kick, loc, head, deck) in enumerate(fives):
+    for i, (kick, loc, head, deck, banner) in enumerate(fives):
         cx0 = MX + i * (FW5 + 7)
         card_box(cv, cx0, FY, FW5, FH)
-        ky = kicker_loc(cv, cx0 + 8, FY + 7, kick, loc, 7.9)
-        bend = draw_block(cv, cx0 + 8, ky, head, 11, 13.5, INK, FW5 - 16, 1.25)
-        fit_block(cv, cx0 + 8, bend + 3, deck, 8.0, 1.28, SOFT, FW5 - 16,
-                  FY + FH - (bend + 3) - 6, 0.95)
+        banner(cv, cx0 + 1.4, FY + 1.4, FW5 - 2.8, 19)
+        ky = kicker_loc(cv, cx0 + 8, FY + 23, kick, loc, 7.9)
+        bend = draw_block(cv, cx0 + 8, ky, head, 11.6, 14, INK, FW5 - 16, 1.3)
+        fit_block(cv, cx0 + 8, bend + 3, deck, 8.2, 1.28, SOFT, FW5 - 16,
+                  FY + FH - (bend + 3) - 5, 0.95)
     # ---- bottom band: map + briefs
-    BY = 830.0; BH = 114.0
+    BY = 840.0; BH = 114.0
     hline(cv, MX, BY - 4, CW, 1.6)
     draw_text(cv, MX, BY + 10, "WHERE IT HAPPENED", 9.5, INK, 1.3)
-    scene_map(cv, MX, BY + 14, 296, 84)
-    draw_text(cv, MX, BY + 110, "NUMBERED AS THE STORIES ABOVE \u00b7 PINS 1\u201313", 6.6, FAINT, 1.0)
+    scene_map(cv, MX, BY + 14, 296, 80)
+    draw_text(cv, MX, BY + 106, "NUMBERED AS THE STORIES ABOVE \u00b7 PINS 1\u201313", 6.6, FAINT, 1.0)
     bx = MX + 312
     draw_text(cv, bx, BY + 10, "ALSO ON SUNDAY 22 NOVEMBER", 9.5, RED, 1.3)
     briefs_a = [
@@ -771,25 +914,25 @@ def build():
         cx0 = bx + j * (colw + 10)
         yy = BY + 16
         for it in items:
-            yy = draw_block(cv, cx0, yy, it, 6.9, 9.6, SOFT, colw, 0.95) + 1.6
+            yy = draw_block(cv, cx0, yy, it, 7.4, 10.8, SOFT, colw, 0.95) + 1.1
     # ---- date check
-    DY = 952.0
-    cv.rect(MX, DY, CW, 34, PAPER2)
-    cv.rect(MX, DY, CW, 1.4, RED); cv.rect(MX, DY + 32.6, CW, 1.4, RED)
-    cv.rect(MX, DY, 1.4, 34, RED); cv.rect(MX + CW - 1.4, DY, 1.4, 34, RED)
-    draw_block(cv, MX + 8, DY + 5,
+    DY = 964.0
+    cv.rect(MX, DY, CW, 33, PAPER2)
+    cv.rect(MX, DY, CW, 1.4, RED); cv.rect(MX, DY + 31.6, CW, 1.4, RED)
+    cv.rect(MX, DY, 1.4, 33, RED); cv.rect(MX + CW - 1.4, DY, 1.4, 33, RED)
+    draw_block(cv, MX + 8, DY + 4,
                "DATE CHECK \u00b7 Left out as earlier news: Kryvyi Rih 'triple-tap' strike (Fri 20) \u00b7 Wall Street's AI "
                "sell-off (Fri 20) \u00b7 Kerch Bridge strike (Wed) \u00b7 Xi\u2013Trump\u2013Putin Shenzhen summit (19 Nov). The Peru quake "
                "was Friday evening's; only Sunday's toll update counts. Not confirmed when drawn (~03:00 UTC): COP31 "
                "adoption (0600 GMT session) \u00b7 Las Vegas GP result (~04:00 UTC) \u00b7 IRGC radar claims (CENTCOM denies).",
-               7.0, 9.8, SOFT, CW - 16, 0.95)
+               6.9, 9.4, SOFT, CW - 16, 0.95)
     # ---- footer
-    hline(cv, MX, 992, CW, 1.2)
-    draw_text(cv, MX, 1006,
+    hline(cv, MX, 1003, CW, 1.2)
+    draw_text(cv, MX, 1016,
               "Every story here happened, or was first reported, on Sunday 22 November 2026 in at least one time zone. "
               "Officials' counts and claims are attributed.",
               7.3, SOFT, 1.0)
-    draw_text(cv, W - MX, 1018, "Sources named beside each story \u00b7 Original drawings", 7.3, INK, 1.1, align='right')
+    draw_text(cv, W - MX, 1016, "Sources named beside each story \u00b7 Original drawings", 7.3, INK, 1.1, align='right')
     return cv
 
 def main():
